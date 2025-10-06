@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @anime %>
+<%  if @anime.featured_image.attached? %>
+  <%= image_tag @anime.featured_image, style: "width: 200px; height: 200px; object-fit: cover;" %>
+<% end %>
+<div>
+  <%= link_to "Edit this anime", edit_anime_path(@anime) if authenticated? %> |
+  <%= link_to "Back to animes", animes_path  %>
+
+  <% if authenticated? %>
+    <%= button_to "Destroy this anime", @anime, method: :delete %>
+  <% end %>
+</div>

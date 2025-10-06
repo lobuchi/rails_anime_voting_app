@@ -1,0 +1,12 @@
+<% content_for :title, "Editing anime" %>
+
+<h1>Editing anime</h1>
+
+<%= render "form", anime: @anime %>
+
+<br>
+
+<div>
+  <%= link_to "Show this anime", @anime %> |
+  <%= link_to "Back to animes", animes_path %>
+</div>

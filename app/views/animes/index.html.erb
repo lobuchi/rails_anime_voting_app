@@ -1,0 +1,20 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Animes" %>
+
+<h1>Animes</h1>
+
+<div id="animes">
+  <% @animes.each do |anime| %>
+    <%= render anime %>
+    <% if anime.featured_image.attached? %>
+      <%= image_tag anime.featured_image, style: "width:200px; height: 200px; object-fit:cover;" %>
+    <% end %>
+    <p>
+      <%= link_to "Show this anime", anime %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "Login", new_session_path unless authenticated? %>
+<%= link_to "New anime", new_anime_path if authenticated? %>
