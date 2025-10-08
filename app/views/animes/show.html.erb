@@ -4,6 +4,17 @@
 <%  if @anime.featured_image.attached? %>
   <%= image_tag @anime.featured_image, style: "width: 200px; height: 200px; object-fit: cover;" %>
 <% end %>
+
+<% if authenticated? %>
+  <% if current_user.likes.exists?(anime_id: @anime.id) %>
+    <%= button_to "Unlike", anime_like_path(@anime), method: :delete %>
+  <% else %>
+    <%= button_to "Upvote",  anime_like_path(@anime), method: :post %>
+  <% end %>
+<% else %>
+  <%= link_to "Log in to vote", new_user_session_path %>
+<% end %>
+
 <div>
   <%= link_to "Edit this anime", edit_anime_path(@anime) if authenticated? %> |
   <%= link_to "Back to animes", animes_path  %>
