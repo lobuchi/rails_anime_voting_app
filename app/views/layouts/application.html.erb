@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+    _<%= csp_meta_tag %>
 
     <%= yield :head %>
 
@@ -24,7 +24,10 @@
 
   <body>
     <nav>
-      <%= button_to "Log out", session_path, method: :delete if authenticated? %>
+      <%= button_to "Home", animes_path, method: :get %>
+  <% if authenticated? %>
+    <%= button_to "Log out", session_path, method: :delete %>
+  <% end %>
     </nav>
     <main>
       <%= yield %>

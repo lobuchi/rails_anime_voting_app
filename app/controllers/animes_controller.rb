@@ -4,7 +4,7 @@ class AnimesController < ApplicationController
 
   # GET /animes or /animes.json
   def index
-    @animes = Anime.all
+    @animes = Anime.left_joins(:likes).group(:id).select("animes.*,COUNT(likes.id) AS likes_count").order("likes_count DESC")
   end
 
   # GET /animes/1 or /animes/1.json

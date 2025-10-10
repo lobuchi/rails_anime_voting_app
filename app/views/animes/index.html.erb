@@ -2,17 +2,21 @@
 
 <% content_for :title, "Animes" %>
 
-<h1>Animes</h1>
+<h1>🏆 Anime Leaderboard</h1>
 
-<div id="animes">
-  <% @animes.each do |anime| %>
-    <%= render anime %>
-    <% if anime.featured_image.attached? %>
-      <%= image_tag anime.featured_image, style: "width:200px; height: 200px; object-fit:cover;" %>
-    <% end %>
-    <p>
-      <%= link_to "Show this anime", anime %>
-    </p>
+<div id="animes" style="display: grid; grid-template-columns: repeat(auto-fill, 220px); gap: 20px;">
+  <% @animes.each_with_index do |anime, index| %>
+    <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; text-align: center;">
+      <h3><%= "#{index + 1}. #{anime.title}" %></h3>
+
+      <% if anime.featured_image.attached? %>
+        <%= image_tag anime.featured_image, style: "width:200px; height:200px; object-fit:cover; border-radius:8px;" %>
+      <% end %>
+
+      <p>❤️ <%= anime.likes_count %> Likes</p>
+
+      <%= link_to "Show this anime", anime, style: "display:block; margin-top:5px;" %>
+    </div>
   <% end %>
 </div>
 
