@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   has_many :likes, dependent: :destroy
   has_many :liked_animes, through: :likes, source: :anime
-
+  has_many :comments
 
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }

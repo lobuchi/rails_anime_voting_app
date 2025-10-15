@@ -23,3 +23,49 @@
     <%= button_to "Destroy this anime", @anime, method: :delete %>
   <% end %>
 </div>
+<hr>
+
+<h3>Comments</h3>
+
+<div id="comments">
+  <% if @anime.comments.empty? %>
+    <p>Be the first to leave a comment!</p>
+  <% else %>
+    <% @anime.comments.each do |comment| %>
+            <div class="comment-box" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+        <p>
+          <strong><%= comment.user.email_address %></strong> wrote:
+        </p>
+        <p>
+          <%= comment.body %>
+        </p>
+            </div>
+     <% end %>
+  <% end %>
+
+</div>
+
+<hr>
+<h4>Add Your Comment</h4>
+
+<% if authenticated? %>
+  <%= form_with(model: [@anime, @anime.comments.build]) do |form| %>
+    <div>
+    
+      <%= form.text_area :body, rows: 5, style: "width: 100%;" %>
+   
+    </div>
+    
+    <br>
+    
+    <div>
+
+      <%= form.submit "Post Comment" %>
+    
+    </div>
+  <% end %>
+<% else %>
+
+  <p>You must be <%= link_to "logged in", new_user_session_path %> to comment.</p>
+
+<% end %>
