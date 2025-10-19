@@ -4,6 +4,12 @@
 
 <h1>🏆 Anime Leaderboard</h1>
 
+<%= form_with(url: animes_path, method: :get,local: true) do |form| %>
+  <%= form.text_field :query, placeholder: "Search for an anime.." %>
+  <%= form.submit "Search" %>
+<% end %>
+<br>
+<br>
 <div id="animes" style="display: grid; grid-template-columns: repeat(auto-fill, 220px); gap: 20px;">
   <% @animes.each_with_index do |anime, index| %>
     <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; text-align: center;">

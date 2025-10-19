@@ -4,7 +4,23 @@ class AnimesController < ApplicationController
 
   # GET /animes or /animes.json
   def index
-    @animes = Anime.left_joins(:likes).group(:id).select("animes.*,COUNT(likes.id) AS likes_count").order("likes_count DESC")
+    base_query = Anime
+                  .left_joins(:likes)
+                  .group(:id)
+                  .select("animes.*, COUNT(likes.id) AS likes_count")
+                  .order("likes_count DESC")
+
+    if params[:query].present?
+        # Apply the search condition (LOWER and LIKE) to the base query
+        search_term = "%#{params[:query]}%"
+        
+        # Use 'where' to filter the results from the base query
+        @animes = base_query.where("LOWER(title) LIKE LOWER(?)", search_term)
+    else
+        # When no search query is present, use the base query as is (all animes ordered by likes_count)
+        @animes = base_query
+    end
+  
   end
 
   # GET /animes/1 or /animes/1.json
