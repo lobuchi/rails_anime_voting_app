@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_14_130247) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_27_123715) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_14_130247) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "anime_genres", force: :cascade do |t|
+    t.integer "anime_id", null: false
+    t.integer "genre_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["anime_id"], name: "index_anime_genres_on_anime_id"
+    t.index ["genre_id"], name: "index_anime_genres_on_genre_id"
+  end
+
+  create_table "animegenres", force: :cascade do |t|
+    t.integer "anime_id", null: false
+    t.integer "genre_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["anime_id"], name: "index_animegenres_on_anime_id"
+    t.index ["genre_id"], name: "index_animegenres_on_genre_id"
+  end
+
   create_table "animes", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -54,6 +72,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_14_130247) do
     t.datetime "updated_at", null: false
     t.index ["anime_id"], name: "index_comments_on_anime_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "genres", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "likes", force: :cascade do |t|
@@ -84,6 +108,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_14_130247) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "anime_genres", "animes"
+  add_foreign_key "anime_genres", "genres"
+  add_foreign_key "animegenres", "animes"
+  add_foreign_key "animegenres", "genres"
   add_foreign_key "comments", "animes"
   add_foreign_key "comments", "users"
   add_foreign_key "likes", "animes"

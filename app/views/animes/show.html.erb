@@ -4,6 +4,14 @@
 <%  if @anime.featured_image.attached? %>
   <%= image_tag @anime.featured_image, style: "width: 200px; height: 200px; object-fit: cover;" %>
 <% end %>
+  <div>
+  <strong>Genres:</strong>
+  <% @anime.genres.each do |genre| %>
+    <span class="genre-tag">
+      <%= genre.name %>
+    </span>
+  <% end %>
+</div>
 
 <% if authenticated? %>
   <% if current_user.likes.exists?(anime_id: @anime.id) %>
@@ -34,7 +42,7 @@
     <% @anime.comments.each do |comment| %>
             <div class="comment-box" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
         <p>
-          <strong><%= comment.user.email_address %></strong> wrote:
+          <strong><%= link_to comment.user.email_address,user_path(comment.user) %></strong> wrote:
         </p>
         <p>
           <%= comment.body %>

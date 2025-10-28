@@ -1,0 +1,24 @@
+<h1>Profile: <%= @user.email_address %></h1>
+
+<hr>
+
+
+<h3>All Comments by <%= @user.email_address %></h3>
+
+<% if @comments.any? %>
+  <% @comments.each do |comment| %>
+
+    <div style="border: 1px solid #eee; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+      <p>
+  On the anime <strong><%= link_to comment.anime.title, comment.anime %></strong>, they wrote: 
+</p>
+      <blockquote>
+        "<%= comment.body %>"
+      </blockquote>
+      <small>Posted <%= time_ago_in_words(comment.created_at) %> ago</small>
+    </div>
+
+  <% end %>
+<% else %>
+  <p><%= @user.email_address %>
+<% end %>

@@ -1,4 +1,4 @@
-<%= form_with(model: anime) do |form| %>
+<%= form_with(model: anime, multipart: true) do |form| %>
   <% if anime.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(anime.errors.count, "error") %> prohibited this anime from being saved:</h2>
@@ -24,6 +24,16 @@
     <%= form.label :featured_image, style: "display: block" %>
     <%= form.file_field :featured_image, accept: "image/*" %>
   </div>
+
+  <div class="field">
+    <h4>Genres</h4>
+    <%= form.collection_check_boxes :genre_ids, Genre.all, :id, :name do |b| %>
+      <div class= "collection-check-box">
+        <%= b.check_box %>
+        <%= b.label %>
+      </div>
+    <% end %>
+    </div>
 
 
   <div>

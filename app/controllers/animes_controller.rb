@@ -82,6 +82,6 @@ class AnimesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def anime_params
-      params.expect(anime: [ :title, :description , :featured_image])
+      params.require(:anime).permit(:title, :description, :featured_image, { genre_ids: [] })
     end
 end

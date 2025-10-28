@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  get "users/show"
   resource :session
   resources :passwords, param: :token
   resources :animes do
       resource :comments, only: [:create]
       resource :like, only: [:create, :destroy]
   end
+  resources :users, only: [:show]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
