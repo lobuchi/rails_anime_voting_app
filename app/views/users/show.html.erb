@@ -2,6 +2,21 @@
 
 <hr>
 
+<div class="activity-dashboard">
+<h3> Last  Liked Animes </h3>
+  <div class="activity-section">
+<% if @recent_likes.empty? %>
+  <p><%= @user.email_address %> hasn't liked any anime yet.</p>
+<% else %>
+  <ul> 
+    <% @recent_likes.each do |like| %>
+      <li><strong><%= link_to like.anime.title, anime_path(like.anime) %></strong></li>
+    <% end %>
+  </ul>
+<% end %>
+</div>
+
+<hr>
 
 <h3>All Comments by <%= @user.email_address %></h3>
 
@@ -22,3 +37,10 @@
 <% else %>
   <p><%= @user.email_address %>
 <% end %>
+
+<%== pagy_nav(@pagy) %>
+
+
+
+
+</div>

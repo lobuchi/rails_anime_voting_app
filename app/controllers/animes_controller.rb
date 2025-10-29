@@ -2,30 +2,33 @@ class AnimesController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
   before_action :set_anime, only: %i[ show edit update destroy ]
 
-  # GET /animes or /animes.json
-  def index
-    base_query = Anime
-                  .left_joins(:likes)
-                  .group(:id)
-                  .select("animes.*, COUNT(likes.id) AS likes_count")
-                  .order("likes_count DESC")
-
-    if params[:query].present?
-        # Apply the search condition (LOWER and LIKE) to the base query
-        search_term = "%#{params[:query]}%"
-        
-        # Use 'where' to filter the results from the base query
-        @animes = base_query.where("LOWER(title) LIKE LOWER(?)", search_term)
-    else
-        # When no search query is present, use the base query as is (all animes ordered by likes_count)
-        @animes = base_query
-    end
+ def index
+  base_query = Anime
+                .left_joins(:likes)
+                .group('animes.id')
   
-  end
-
+  query_to_paginate = if params[:query].present?
+                        search_term = "%#{params[:query]}%"
+                        base_query.where("LOWER(animes.title) LIKE LOWER(?)", search_term)
+                      else
+                        base_query
+                      end
+  
+  # Count returns a hash with GROUP BY, so get the size of that hash
+    total_count = query_to_paginate.count.size
+  
+  # Now add the select and order for the actual records
+    query_with_likes = query_to_paginate
+                      .select('animes.*, COUNT(likes.id) AS likes_count')
+                      .order('COUNT(likes.id) DESC')
+  
+    @pagy, @animes = pagy(query_with_likes, count: total_count)
+  end 
+  
+  
   # GET /animes/1 or /animes/1.json
-  def show
-  end
+    def show
+    end
 
   # GET /animes/new
   def new
@@ -84,4 +87,5 @@ class AnimesController < ApplicationController
     def anime_params
       params.require(:anime).permit(:title, :description, :featured_image, { genre_ids: [] })
     end
+
 end

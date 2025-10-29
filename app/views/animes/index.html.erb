@@ -26,5 +26,9 @@
   <% end %>
 </div>
 
+
+
 <%= link_to "Login", new_session_path unless authenticated? %>
 <%= link_to "New anime", new_anime_path if authenticated? %>
+
+<%== pagy_nav(@pagy) %>
