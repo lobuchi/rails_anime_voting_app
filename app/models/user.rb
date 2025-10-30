@@ -8,4 +8,7 @@ class User < ApplicationRecord
 
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  has_many :watchlists, dependent: :destroy
+  has_many :watched_animes, through: :watchlists, source: :anime
 end

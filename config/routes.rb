@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :animes do
       resource :comments, only: [:create]
       resource :like, only: [:create, :destroy]
+      resource :watchlist, only: [:update, :destroy]
   end
   resources :users, only: [:show,:edit,:update]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

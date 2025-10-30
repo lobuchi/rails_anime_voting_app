@@ -28,6 +28,9 @@ class AnimesController < ApplicationController
   
   # GET /animes/1 or /animes/1.json
     def show
+        if authenticated?
+                @user_watchlist = current_user.watchlists.find_by(anime: @anime) || Watchlist.new
+        end
     end
 
   # GET /animes/new
