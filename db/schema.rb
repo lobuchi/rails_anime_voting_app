@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_29_151603) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_31_131754) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -89,6 +89,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_151603) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "scorings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "anime_id", null: false
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status"
+    t.index ["anime_id"], name: "index_scorings_on_anime_id"
+    t.index ["user_id"], name: "index_scorings_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -126,6 +137,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_151603) do
   add_foreign_key "comments", "users"
   add_foreign_key "likes", "animes"
   add_foreign_key "likes", "users"
+  add_foreign_key "scorings", "animes"
+  add_foreign_key "scorings", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "watchlists", "animes"
   add_foreign_key "watchlists", "users"

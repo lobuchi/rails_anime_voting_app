@@ -9,4 +9,5 @@ class Anime < ApplicationRecord
   has_many :likers, through: :likes, source: :user
   has_many :comments, dependent: :destroy
   has_many :watchlists, dependent: :destroy
+  has_many :scorings, dependent: :destroy
 end

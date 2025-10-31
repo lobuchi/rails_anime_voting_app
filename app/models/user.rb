@@ -11,4 +11,7 @@ class User < ApplicationRecord
 
   has_many :watchlists, dependent: :destroy
   has_many :watched_animes, through: :watchlists, source: :anime
+
+  has_many :scorings, dependent: :destroy
+  has_many :scored_animes, through: :scorings, source: :anime
 end

@@ -56,6 +56,28 @@
 
 <hr>
 
+<% if authenticated? %>
+  <div class="scoring-form" style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
+    <strong>My Rating:</strong>
+
+    <%= form_with(model: @user_scoring, url: anime_scoring_path(@anime), method: :put, local: true) do |form| %>
+
+      <%= form.select :status,
+          Scoring.statuses.keys.map { |s| [s.humanize, s] },
+          { include_blank: "Add to List..." },
+          onchange: 'this.form.submit()'
+      %>
+
+      <% if @user_scoring.persisted? %>
+         <%= link_to "Remove", anime_watchlist_path(@anime), data: { turbo_method: :delete, confirm: "Are you sure?" }, style: "color: red; margin-left: 10px;" %>
+      <% end %>
+
+    <% end %>
+  </div>
+<% end %>
+
+<hr>
+
 <h3>Comments</h3>
 
 <div id="comments">
