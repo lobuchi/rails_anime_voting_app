@@ -1,124 +1,124 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @anime %>
-<%  if @anime.featured_image.attached? %>
-  <%= image_tag @anime.featured_image, style: "width: 200px; height: 200px; object-fit: cover;" %>
-<% end %>
-  <div>
-  <strong>Genres:</strong>
-  <% @anime.genres.each do |genre| %>
-    <span class="genre-tag">
-      <%= genre.name %>
-    </span>
-  <% end %>
-</div>
+<div class="anime-container" style="display: flex; gap: 30px; max-width: 1200px; margin: 0 auto;">
 
-<% if authenticated? %>
-  <% if current_user.likes.exists?(anime_id: @anime.id) %>
-    <%= button_to "Unlike", anime_like_path(@anime), method: :delete %>
-  <% else %>
-    <%= button_to "Upvote",  anime_like_path(@anime), method: :post %>
-  <% end %>
-<% else %>
-  <%= link_to "Log in to vote", new_user_session_path %>
-<% end %>
-
-<div>
-  <%= link_to "Edit this anime", edit_anime_path(@anime) if authenticated? %> |
-  <%= link_to "Back to animes", animes_path  %>
-
-  <% if authenticated? %>
-    <%= button_to "Destroy this anime", @anime, method: :delete %>
-  <% end %>
-</div>
-<hr>
-
-
-<% if authenticated? %>
-  <div class="watchlist-form" style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
-    <strong>My List Status:</strong>
-
-    <%= form_with(model: @user_watchlist, url: anime_watchlist_path(@anime), method: :put, local: true) do |form| %>
-
-      <%= form.select :status,
-          Watchlist.statuses.keys.map { |s| [s.humanize, s] },
-          { include_blank: "Add to List..." },
-          onchange: 'this.form.submit()'
-      %>
-
-      <% if @user_watchlist.persisted? %>
-         <%= link_to "Remove", anime_watchlist_path(@anime), data: { turbo_method: :delete, confirm: "Are you sure?" }, style: "color: red; margin-left: 10px;" %>
-      <% end %>
-
+  <div class="anime-sidebar" style="flex: 0 0 300px; padding-right: 20px;">
+    <%# render @anime %>
+    <% if @anime.featured_image.attached? %>
+      <%= image_tag @anime.featured_image, style: "width: 100%; height: auto; object-fit: cover; margin-bottom: 15px;" %>
     <% end %>
-  </div>
-<% end %>
 
-<hr>
-
-<% if authenticated? %>
-  <div class="scoring-form" style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
-    <strong>My Rating:</strong>
-
-    <%= form_with(model: @user_scoring, url: anime_scoring_path(@anime), method: :put, local: true) do |form| %>
-
-      <%= form.select :status,
-          Scoring.statuses.keys.map { |s| [s.humanize, s] },
-          { include_blank: "Add to List..." },
-          onchange: 'this.form.submit()'
-      %>
-
-      <% if @user_scoring.persisted? %>
-         <%= link_to "Remove", anime_watchlist_path(@anime), data: { turbo_method: :delete, confirm: "Are you sure?" }, style: "color: red; margin-left: 10px;" %>
-      <% end %>
-
-    <% end %>
-  </div>
-<% end %>
-
-<hr>
-
-<h3>Comments</h3>
-
-<div id="comments">
-  <% if @anime.comments.empty? %>
-    <p>Be the first to leave a comment!</p>
-  <% else %>
-    <% @anime.comments.each do |comment| %>
-            <div class="comment-box" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-        <p>
-          <strong><%= link_to comment.user.email_address,user_path(comment.user) %></strong> wrote:
-        </p>
-        <p>
-          <%= comment.body %>
-        </p>
-            </div>
-     <% end %>
-  <% end %>
-
-</div>
-
-<hr>
-<h4>Add Your Comment</h4>
-
-<% if authenticated? %>
-  <%= form_with(model: [@anime, @anime.comments.build]) do |form| %>
     <div>
-    
-      <%= form.text_area :body, rows: 5, style: "width: 100%;" %>
-   
+      <strong>Genres:</strong>
+      <% @anime.genres.each do |genre| %>
+        <span class="genre-tag">
+          <%= genre.name %>
+        </span>
+      <% end %>
     </div>
     
-    <br>
+    <hr>
+
+    <% if authenticated? %>
+      <div class="watchlist-form" style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
+        <strong>My List Status:</strong>
+        <%= form_with(model: @user_watchlist, url: anime_watchlist_path(@anime), method: :put, local: true) do |form| %>
+          <%= form.select :status,
+              Watchlist.statuses.keys.map { |s| [s.humanize, s] },
+              { include_blank: "Add to List..." },
+              onchange: 'this.form.submit()'
+          %>
+          <% if @user_watchlist.persisted? %>
+             <%= link_to "Remove", anime_watchlist_path(@anime), data: { turbo_method: :delete, confirm: "Are you sure?" }, style: "color: red; margin-left: 10px;" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if authenticated? %>
+      <div class="scoring-form" style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
+        <strong>My Rating:</strong>
+
+        <%= form_with(model: @user_scoring, url: anime_scoring_path(@anime), method: :put, local: true) do |form| %>
+          <%= form.select :score,
+              (1..10).to_a.map { |i| ["#{i} / 10", i] },
+              { include_blank: "Select Score" },
+              onchange: 'this.form.submit()'
+          %>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <hr>
+
+    <div>
+      <% if authenticated? %>
+        <% if current_user.likes.exists?(anime_id: @anime.id) %>
+          <%= button_to "Unlike", anime_like_path(@anime), method: :delete %>
+        <% else %>
+          <%= button_to "Upvote",  anime_like_path(@anime), method: :post %>
+        <% end %>
+      <% else %>
+        <%= link_to "Log in to vote", new_user_session_path %>
+      <% end %>
+    </div>
+
+  </div>
+  
+  <div class="anime-main-content" style="flex-grow: 1;">
+    
+    <%= render @anime %> 
+
+    <hr>
     
     <div>
+      <%= link_to "Edit this anime", edit_anime_path(@anime) if authenticated? %> |
+      <%= link_to "Back to animes", animes_path  %>
 
-      <%= form.submit "Post Comment" %>
-    
+      <% if authenticated? %>
+        <%= button_to "Destroy this anime", @anime, method: :delete, style: "display: inline;" %>
+      <% end %>
     </div>
-  <% end %>
-<% else %>
 
-  <p>You must be <%= link_to "logged in", new_user_session_path %> to comment.</p>
+    <hr>
+    
+    <h3>Comments</h3>
 
-<% end %>
+    <div id="comments">
+      <% if @anime.comments.empty? %>
+        <p>Be the first to leave a comment!</p>
+      <% else %>
+        <% @anime.comments.each do |comment| %>
+          <div class="comment-box" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <p>
+              <strong><%= link_to comment.user.email_address, user_path(comment.user) %></strong> wrote:
+            </p>
+            <p>
+              <%= comment.body %>
+            </p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <hr>
+    
+    <h4>Add Your Comment</h4>
+    <% if authenticated? %>
+      <%= form_with(model: [@anime, @anime.comments.build]) do |form| %>
+        <div>
+          <%= form.text_area :body, rows: 5, style: "width: 100%;" %>
+        </div>
+        <br>
+        <div>
+          <%= form.submit "Post Comment" %>
+        </div>
+      <% end %>
+    <% else %>
+      <p>You must be <%= link_to "logged in", new_user_session_path %> to comment.</p>
+    <% end %>
+    
+  </div>
+  
+</div>
+
