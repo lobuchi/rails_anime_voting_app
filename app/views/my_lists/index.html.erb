@@ -1,0 +1,41 @@
+<h1><%= current_user.email_address %>'s Anime List</h1>
+
+<% if @watchlists_by_status.empty? %>
+  <p>Your list is empty! <%= link_to 'Browse anime',animes_path %> to start adding titles. </p>
+<% else %>
+
+  <% Watchlist.statuses.keys.each do |status| %>
+    <% next unless @watchlists_by_status.key?(status) %>
+
+    <h2><%= status.humanize %> (<%= @watchlists_by_status[status].count %>) </h2>
+
+ <div class="list-section" style="margin-bottom: 30px; border: 1px solid #ddd; padding: 15px;">
+      
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; text-align: left;">Title</th>
+            <th style="padding: 8px; text-align: left;">Your Score</th>
+            <th style="padding: 8px; text-align: left;">Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @watchlists_by_status[status].each do |list_entry| %>
+            
+
+            <tr>
+              <td style="padding: 8px;">
+                <%= link_to list_entry.anime.title, anime_path(list_entry.anime) %>
+              </td>
+              <td style="padding: 8px;">
+                <%= list_entry.created_at.strftime("%Y-%m-%d") %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+ <% end %>
+<% end %>
+

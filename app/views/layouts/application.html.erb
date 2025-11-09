@@ -25,8 +25,16 @@
   <body>
     <nav>
       <%= button_to "Home", animes_path, method: :get %>
-  <% if authenticated? %>
-    <%= button_to "Log out", session_path, method: :delete %>
+      
+      <% if authenticated? %>
+  <li>Welcome, <%= current_user.email_address %>!</li>
+  <li>
+    <%= link_to "My List", my_list_path %>  
+  </li>
+  <li>
+    <%= link_to "My Profile", user_path(current_user) %>
+  </li>
+        <%= button_to "Log out", session_path, method: :delete %>
   <% end %>
     </nav>
     <main>

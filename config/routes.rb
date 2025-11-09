@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "my_lists/index"
   get "users/show"
   resource :session
   resources :passwords, param: :token
@@ -9,6 +10,7 @@ Rails.application.routes.draw do
       resource :scoring, only: [:update, :destroy]
   end
   resources :users, only: [:show,:edit,:update]
+  get 'my_list',to: 'my_lists#index', as: :my_list
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
