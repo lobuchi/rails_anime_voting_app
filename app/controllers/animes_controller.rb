@@ -28,9 +28,11 @@ class AnimesController < ApplicationController
   
   # GET /animes/1 or /animes/1.json
     def show
+      @anime = Anime.find(params[:id])
         if authenticated?
+
           @user_watchlist = current_user.watchlists.find_by(anime: @anime) || Watchlist.new      
-          @user_scoring = current_user.scorings.find_by(anime: @anime) || Scoring.new
+          @user_scoring = current_user.scorings.find_or_initialize_by(anime: @anime) || Scoring.new
         end
     end
 

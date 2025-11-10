@@ -40,8 +40,8 @@
         <strong>My Rating:</strong>
 
         <%= form_with(model: @user_scoring, url: anime_scoring_path(@anime), method: :put, local: true) do |form| %>
-          <%= form.select :score,
-              (1..10).to_a.map { |i| ["#{i} / 10", i] },
+          <%= form.select :status,
+            Scoring.statuses.map { |name, value| ["#{value} / 10", name] },
               { include_blank: "Select Score" },
               onchange: 'this.form.submit()'
           %>
