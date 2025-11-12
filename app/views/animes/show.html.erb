@@ -10,9 +10,9 @@
 
     <div>
       <strong>Genres:</strong>
-      <% @anime.genres.each do |genre| %>
+      <% @anime.genres.each_with_index do |genre , i| %>
         <span class="genre-tag">
-          <%= genre.name %>
+          <%= genre.name %><%= "," unless i == @anime.genres.size - 1 %>
         </span>
       <% end %>
     </div>
