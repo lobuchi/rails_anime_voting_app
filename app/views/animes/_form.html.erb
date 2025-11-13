@@ -26,6 +26,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :youtube_id,"YouTube Video ID (e.g., dQx_XgR_Q9A)",style: "display: block" %>
+    <%= form.text_field :youtube_id %>
+  </div>
+
+  <div class="field">
     <h4>Genres</h4>
     <%= form.collection_check_boxes :genre_ids, Genre.all, :id, :name do |b| %>
       <div class= "collection-check-box">

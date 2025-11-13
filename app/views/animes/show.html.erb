@@ -81,6 +81,17 @@
     </div>
 
     <hr>
+
+
+
+     <% if @anime.youtube_id.present? %>
+      <div class="trailer-embed" style="margin-bottom: 20px;">
+        <h3>Official Trailer</h3>
+        <%= embed_youtube(@anime) %>
+      </div>
+      <hr>
+    <% end %>
+
     
     <h3>Comments</h3>
 

@@ -91,7 +91,7 @@ class AnimesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def anime_params
-      params.require(:anime).permit(:title, :description, :featured_image, { genre_ids: [] })
+      params.require(:anime).permit(:title, :description, :featured_image,:youtube_id, { genre_ids: [] })
     end
 
 end
