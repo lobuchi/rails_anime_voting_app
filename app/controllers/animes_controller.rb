@@ -1,8 +1,9 @@
 class AnimesController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
   before_action :set_anime, only: %i[ show edit update destroy ]
-
- def index
+ 
+ 
+  def index
   base_query = Anime
                 .left_joins(:likes)
                 .group('animes.id')
@@ -17,14 +18,17 @@ class AnimesController < ApplicationController
   # Count returns a hash with GROUP BY, so get the size of that hash
     total_count = query_to_paginate.count.size
   
+    score  = 
   # Now add the select and order for the actual records
     query_with_likes = query_to_paginate
                       .select('animes.*, COUNT(likes.id) AS likes_count')
                       .order('COUNT(likes.id) DESC')
   
     @pagy, @animes = pagy(query_with_likes, count: total_count)
+
   end 
-  
+ 
+
   
   # GET /animes/1 or /animes/1.json
     def show
