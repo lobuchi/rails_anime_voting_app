@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_12_164920) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_14_204952) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -110,7 +110,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_12_164920) do
   create_table "scorings", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "anime_id", null: false
-    t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status"
