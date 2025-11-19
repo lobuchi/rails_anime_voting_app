@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   get "rankings/index"
   get "my_lists/index"
   get "users/show"
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
       resource :watchlist, only: [:update, :destroy]
       resource :scoring, only: [:update, :destroy]
   end
+  resources :genres, only: [:index]
   resources :users, only: [:show,:edit,:update]
   get 'my_list',to: 'my_lists#index', as: :my_list
   get 'top_anime', to: 'rankings#index', as: :top_anime

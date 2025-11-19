@@ -1,0 +1,18 @@
+<h1>Browse Anime by Genre</h1>
+
+<p>Click on any genre below to view all associated anime titles.</p>
+
+
+<div class="list-style-type: none; padding: 0;">
+   <ul style="list-style-type: none; padding: 0;">
+  <% @genres.each do |genre| %>
+    <li  style="margin-bottom: 10px; font-size: 1.1em;">
+
+      <%= link_to genre.name, animes_path(genre.id),style: "font-weight: bold;" %>
+
+      (<%= genre.animes.count %> titles)
+      </li>
+    <% end %>
+  </ul>
+  
+</div>
