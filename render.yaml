@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: anime-voting
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    # preDeployCommand: "bundle exec rails db:prepare" # available on paid instance types
+    startCommand: "./bin/rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: anime-voting-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2
+      - key: SOLID_QUEUE_IN_PUMA
+        value: "true"
+
+databases:
+  - name: anime-voting-db
+    plan: free
