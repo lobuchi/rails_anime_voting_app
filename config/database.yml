@@ -2,18 +2,33 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  # ADDED: Increase the time a thread will wait to get a connection from the pool (default is 5 seconds)
-  checkout_timeout: 10 # seconds (or higher, e.g., 20)
+  checkout_timeout: 10
   timeout: 5000
-  # ADDED: Supabase requires SSL for external connections
-  sslmode: require
-  url: <%= ENV["DATABASE_URL"] %>
 
 development:
   <<: *default
+  database: anime_voting_development
+  username: <%= ENV.fetch("PGUSER", "postgres") %>
+  password: <%= ENV["PGPASSWORD"] %>
+  host: <%= ENV.fetch("PGHOST", "localhost") %>
 
 test:
   <<: *default
+  database: anime_voting_test
+  username: <%= ENV.fetch("PGUSER", "postgres") %>
+  password: <%= ENV["PGPASSWORD"] %>
+  host: <%= ENV.fetch("PGHOST", "localhost") %>
 
 production:
-  <<: *default
+  primary: &primary
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+  cache:
+    <<: *primary
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary
+    migrations_paths: db/cable_migrate
