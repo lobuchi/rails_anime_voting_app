@@ -6,5 +6,5 @@ bundle install
 bin/rails assets:precompile
 bin/rails assets:clean
 
-# db:prepare loads primary, queue, cache, and cable schemas on a single Postgres database
+# Loads app tables plus Solid Cache, Queue, and Cable schemas into Supabase Postgres
 bin/rails db:prepare
