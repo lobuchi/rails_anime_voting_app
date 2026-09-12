@@ -1,41 +1,40 @@
 class AnimesController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
   before_action :set_anime, only: %i[ show edit update destroy ]
- 
- 
+
+
   def index
   base_query = Anime
                 .left_joins(:likes)
-                .group('animes.id')
-  
+                .group("animes.id")
+
   query_to_paginate = if params[:query].present?
                         search_term = "%#{params[:query]}%"
                         base_query.where("LOWER(animes.title) LIKE LOWER(?)", search_term)
-                      else
+  else
                         base_query
-                      end
-  
-  # Count returns a hash with GROUP BY, so get the size of that hash
+  end
+
+    # Count returns a hash with GROUP BY, so get the size of that hash
     total_count = query_to_paginate.count.size
-  
-    score  = 
-  # Now add the select and order for the actual records
+
+    score  =
+    # Now add the select and order for the actual records
     query_with_likes = query_to_paginate
-                      .select('animes.*, COUNT(likes.id) AS likes_count')
-                      .order('COUNT(likes.id) DESC')
-  
+                      .select("animes.*, COUNT(likes.id) AS likes_count")
+                      .order("COUNT(likes.id) DESC")
+
     @pagy, @animes = pagy(query_with_likes, count: total_count)
+  end
 
-  end 
- 
 
-  
-  # GET /animes/1 or /animes/1.json
+
+    # GET /animes/1 or /animes/1.json
     def show
       @anime = Anime.find(params[:id])
         if authenticated?
 
-          @user_watchlist = current_user.watchlists.find_by(anime: @anime) || Watchlist.new      
+          @user_watchlist = current_user.watchlists.find_by(anime: @anime) || Watchlist.new
           @user_scoring = current_user.scorings.find_or_initialize_by(anime: @anime) || Scoring.new
         end
     end
@@ -95,7 +94,6 @@ class AnimesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def anime_params
-      params.require(:anime).permit(:title, :description, :featured_image,:youtube_id, { genre_ids: [] })
+      params.require(:anime).permit(:title, :description, :featured_image, :youtube_id, { genre_ids: [] })
     end
-
 end

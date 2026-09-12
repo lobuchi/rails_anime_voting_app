@@ -24,6 +24,4 @@ class WatchlistsController < ApplicationController
   def watchlist_params
     params.require(:watchlist).permit(:status)
   end
-
-
 end

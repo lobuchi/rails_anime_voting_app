@@ -24,5 +24,4 @@ class ScoringsController < ApplicationController
   def scoring_params
     params.require(:scoring).permit(:status)
   end
-
 end

@@ -1,8 +1,7 @@
 class LikesController < ApplicationController
-
   def create
     @anime = Anime.find(params[:anime_id])
-    @like = Like.new(anime: @anime,user: current_user)
+    @like = Like.new(anime: @anime, user: current_user)
     if @like.save
       redirect_to @anime, notice: "Upvoted!"
     else
@@ -22,5 +21,4 @@ class LikesController < ApplicationController
 
        redirect_to @anime, notice: notice
   end
-
 end

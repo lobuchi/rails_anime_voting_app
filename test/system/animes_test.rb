@@ -3,14 +3,16 @@ require "application_system_test_case"
 class AnimesTest < ApplicationSystemTestCase
   setup do
     @anime = animes(:one)
+    @user = users(:one)
   end
 
   test "visiting the index" do
     visit animes_url
-    assert_selector "h1", text: "Animes"
+    assert_selector "h1", text: "Anime Leaderboard"
   end
 
   test "should create anime" do
+    sign_in_as(@user)
     visit animes_url
     click_on "New anime"
 
@@ -23,6 +25,7 @@ class AnimesTest < ApplicationSystemTestCase
   end
 
   test "should update Anime" do
+    sign_in_as(@user)
     visit anime_url(@anime)
     click_on "Edit this anime", match: :first
 
@@ -35,6 +38,7 @@ class AnimesTest < ApplicationSystemTestCase
   end
 
   test "should destroy Anime" do
+    sign_in_as(@user)
     visit anime_url(@anime)
     click_on "Destroy this anime", match: :first
 

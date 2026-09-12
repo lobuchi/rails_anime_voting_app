@@ -18,5 +18,4 @@ module ApplicationHelper
                   allowfullscreen: true)
     end
   end
-
 end
