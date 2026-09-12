@@ -1,6 +1,6 @@
 class Anime < ApplicationRecord
   has_one_attached :featured_image
-    validates :title,presence: true
+    validates :title, presence: true
     validates :description, presence:  true
 
   has_many :anime_genres
@@ -10,5 +10,4 @@ class Anime < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :watchlists, dependent: :destroy
   has_many :scorings, dependent: :destroy
-
 end

@@ -23,6 +23,8 @@ production:
   primary: &primary
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
+    sslmode: require
+    prepared_statements: false
   cache:
     <<: *primary
     migrations_paths: db/cache_migrate
